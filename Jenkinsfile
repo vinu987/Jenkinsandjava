@@ -26,5 +26,28 @@ pipeline {
                 sh 'docker images java-app:latest'
             }
         }
+
+        stage('Login to ECR') {
+            steps {
+                withCredentials([[
+                    $class: 'AmazonWebServicesCredentialsBinding',
+                    credentialsId: 'aws-jenkins'
+                ]]) {
+                    sh '''
+                        aws ecr-public get-login-password --region us-east-1 | \
+                        docker login --username AWS --password-stdin public.ecr.aws
+                    '''
+                }
+            }
+        }
+
+        stage('Push Image to ECR') {
+            steps {
+                sh '''
+                    docker tag java-app:latest public.ecr.aws/k0c8q8z5/jenkinsecr:latest
+                    docker push public.ecr.aws/k0c8q8z5/jenkinsecr:latest
+                '''
+            }
+        }
     }
 }
