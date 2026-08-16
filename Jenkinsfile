@@ -14,5 +14,17 @@ pipeline {
                 sh 'ls -lh target/*.war'
             }
         }
+
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t java-app:latest .'
+            }
+        }
+
+        stage('Verify Docker Image') {
+            steps {
+                sh 'docker images java-app:latest'
+            }
+        }
     }
 }
