@@ -44,8 +44,8 @@ pipeline {
         stage('Push Image to ECR') {
             steps {
                 sh '''
-                    docker tag java-app:latest public.ecr.aws/k0c8q8z5/jenkinsecr:latest
-                    docker push public.ecr.aws/k0c8q8z5/jenkinsecr:latest
+                    docker tag java-app:latest public.ecr.aws/a7f7g3y7/jenkinsecr:latest
+                    docker push public.ecr.aws/a7f7g3y7/jenkinsecr:latest
                 '''
             }
         }
