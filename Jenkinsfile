@@ -1,6 +1,9 @@
- // CI/CD webhook test
 pipeline {
     agent any
+
+    triggers {
+        githubPush()
+    }
 
     stages {
 
@@ -61,9 +64,7 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 sh '''
-                    kubectl set image deployment/java-app \
-                    java-app=public.ecr.aws/a7f7g3y7/jenkinsecr:latest
-
+                    kubectl set image deployment/java-app java-app=public.ecr.aws/a7f7g3y7/jenkinsecr:latest
                     kubectl rollout status deployment/java-app --timeout=120s
                 '''
             }
