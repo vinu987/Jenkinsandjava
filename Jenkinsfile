@@ -6,12 +6,19 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'mvn clean package'
+                sh 'mvn clean compile'
+            }
+        }
+
+        stage('Unit Test') {
+            steps {
+                sh 'mvn test'
             }
         }
 
         stage('Verify WAR') {
             steps {
+                sh 'mvn package -DskipTests'
                 sh 'ls -lh target/*.war'
             }
         }
